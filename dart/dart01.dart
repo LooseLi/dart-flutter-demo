@@ -188,4 +188,33 @@ void main(List<String> args) {
   // Function add = (int a, int b) => a + b; // 当函数体只有一行代码时，可以使用箭头函数，省略return和{}
   // print(add(3, 7));
   // int add(int a, int b) => a + b;
+
+  // --------------------------------------------------------------------
+
+  // 泛型
+  // List<String> list = []; // 列表泛型
+  // list.add('1');
+
+  // Map<String, int> map = {}; // Map泛型
+  // map['key'] = 1;
+
+  // T getValue<T>(T value) {
+  //   return value;
+  // }
+  // print(getValue<String>('test'));
+
+  // void printList<T>(List<T> list) {
+  //   list.forEach((item) {
+  //     print('泛型列表: $item');
+  //   });
+  // }
+  // printList<String>(['a', 'b', 'c']);
+
+  // Student<String> student = Student();
+  // student.name = 'Tom';
+  // print('Student name: ${student.name}');
 }
+
+// class Student<T> {
+//   T? name;
+// }
