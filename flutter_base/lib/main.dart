@@ -16,43 +16,72 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Flex+Expanded
+    // return MaterialApp(
+    //   home: Scaffold(
+    //     body: Container(
+    //       width: double.infinity,
+    //       color: Colors.yellow,
+    //       alignment: Alignment.center,
+    //       child: Flex(
+    //         direction: Axis.horizontal,
+    //         children: [
+    //           Expanded(
+    //             flex: 2,
+    //             child: Container(width: 100, height: 100, color: Colors.blue),
+    //           ),
+    //           Expanded(
+    //             flex: 1,
+    //             child: Container(width: 100, height: 100, color: Colors.red),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
+
+    // Wrap
+    // List<Widget> getList() {
+    //   return List.generate(10, (index) {
+    //     return Container(width: 100, height: 100, color: Colors.blue);
+    //   });
+    // }
+
+    // return MaterialApp(
+    //   home: Scaffold(
+    //     body: Container(
+    //       width: double.infinity,
+    //       color: Colors.yellow,
+    //       alignment: Alignment.center,
+    //       child: Wrap(
+    //         spacing: 10,
+    //         runSpacing: 10,
+    //         direction: Axis.horizontal,
+    //         children: getList(),
+    //       ),
+    //     ),
+    //   ),
+    // );
+
+    // Stack+Positioned
+    // Stack中子组件的层叠顺序由其在 children 列表中的顺序决定
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Container(
-            width: 200,
-            height: 200,
-            // color: Colors.blue,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.yellow, width: 2),
-            ),
+        body: Container(
+          width: double.infinity,
+          // color: Colors.yellow,
+          alignment: Alignment.center,
+          child: Stack(
             alignment: Alignment.center,
-            margin: EdgeInsets.all(20),
-            transform: Matrix4.rotationZ(0.05),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      count -= 1;
-                    });
-                  },
-                  child: Text('减', style: TextStyle(color: Colors.white)),
-                ),
-                Text(count.toString(), style: TextStyle(color: Colors.white)),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      count += 1;
-                    });
-                  },
-                  child: Text('加', style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
+            children: [
+              Container(width: 200, height: 200, color: Colors.blue),
+              Container(width: 150, height: 150, color: Colors.red),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(width: 100, height: 100, color: Colors.green),
+              ),
+            ],
           ),
         ),
       ),
