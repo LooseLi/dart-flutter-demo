@@ -18,39 +18,41 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Container(
-          width: 200,
-          height: 200,
-          // color: Colors.blue,
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: Colors.yellow, width: 2),
-          ),
-          alignment: Alignment.center,
-          margin: EdgeInsets.all(20),
-          transform: Matrix4.rotationZ(0.05),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    count -= 1;
-                  });
-                },
-                child: Text('减', style: TextStyle(color: Colors.white)),
-              ),
-              Text(count.toString(), style: TextStyle(color: Colors.white)),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    count += 1;
-                  });
-                },
-                child: Text('加', style: TextStyle(color: Colors.white)),
-              ),
-            ],
+        body: Center(
+          child: Container(
+            width: 200,
+            height: 200,
+            // color: Colors.blue,
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: Colors.yellow, width: 2),
+            ),
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(20),
+            transform: Matrix4.rotationZ(0.05),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      count -= 1;
+                    });
+                  },
+                  child: Text('减', style: TextStyle(color: Colors.white)),
+                ),
+                Text(count.toString(), style: TextStyle(color: Colors.white)),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      count += 1;
+                    });
+                  },
+                  child: Text('加', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
           ),
         ),
       ),
