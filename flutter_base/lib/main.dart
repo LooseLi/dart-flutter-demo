@@ -11,74 +11,83 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+// SingleChildScrollView滚动组件，只能包含一个子组件
+// 控制滚动，绑定ScrollController对象给controller，使用jumpTo/animateTo方法控制滚动
+// 一次性构建所有子组件，会有性能问题，建议使用ListView
+
 class _MyAppState extends State<MyApp> {
-  final TextEditingController _userController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final ScrollController _controller = ScrollController(); // 滚动条控制器
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('TextField')),
-        body: Container(
-          padding: EdgeInsets.all(20),
-          color: Colors.white,
-          child: Column(
-            children: [
-              TextField(
-                controller: _userController,
-                onChanged: (value) {
-                  print('onChanged: $value'); // 监听数据变化
+        appBar: AppBar(title: Text('ListView')),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              controller: _controller,
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: List.generate(50, (index) {
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    width: double.infinity,
+                    height: 100,
+                    alignment: Alignment.center,
+                    color: Colors.blue,
+                    child: Text(
+                      '${index + 1}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                }),
+              ),
+            ),
+            Positioned(
+              top: 10,
+              right: 10,
+              child: GestureDetector(
+                onTap: () {
+                  // _controller.jumpTo(_controller.position.maxScrollExtent);
+                  _controller.animateTo(
+                    _controller.position.maxScrollExtent,
+                    duration: Duration(seconds: 1),
+                    curve: Curves.bounceIn,
+                  ); // 有动画跳转
                 },
-                onSubmitted: (value) {
-                  print('onSubmitted: $value'); // 提交时触发
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Text('去底部', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              right: 10,
+              child: GestureDetector(
+                onTap: () {
+                  _controller.jumpTo(0);
                 },
-                decoration: InputDecoration(
-                  // 定制样式
-                  contentPadding: EdgeInsets.only(left: 10),
-                  fillColor: Colors.amber,
-                  filled: true,
-                  hintText: '请输入账号',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(30),
                   ),
+                  child: Text('去顶部', style: TextStyle(color: Colors.white)),
                 ),
               ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _passwordController,
-                obscureText: true, // 隐藏输入内容
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 10),
-                  fillColor: Colors.amber,
-                  filled: true,
-                  hintText: '请输入密码',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    print(
-                      '账号：${_userController.text}，密码：${_passwordController.text}',
-                    );
-                  },
-                  child: Text('提交', style: TextStyle(color: Colors.white)),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
