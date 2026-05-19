@@ -4,148 +4,84 @@ void main(List<String> args) {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+// 父传子（构造函数传参）
+// 1.子组件定义接收属性
+// 2.子组件在构造函数中接收参数
+// 3.父组件传递属性给子组件
+// 4.有状态组件在对外的类接收属性，对内的类通过 widget 对象获取对应属性
+// 5.注意：子组件定义接收属性需要使用final关键字，因为属性由父组件决定，子组件不能随意更改
+
+// 子传父
+// 1.父组件传递一个函数给子组件
+// 2.子组件调用该函数
+// 3.父组件通过回调函数获取参数
+
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-// GridView
-class _MyAppState extends State<MyApp> {
-  int _currentIndex = 0;
-  final PageController _controller = PageController();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('CustomScrollView')),
-        body: CustomScrollView(
-          slivers: [
-            // SliverToBoxAdapter包裹普通widget
-            SliverToBoxAdapter(
-              child: Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 200,
-                    color: Colors.blue,
-                    alignment: Alignment.center,
-                    child: PageView.builder(
-                      controller: _controller,
-                      itemCount: 7,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            '轮播图${index + 1}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(7, (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              // _controller.jumpToPage(index);
-                              _controller.animateToPage(
-                                index,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.linear,
-                              );
-                              setState(() {
-                                _currentIndex = index;
-                              });
-                            },
-                            child: Container(
-                              width: 10,
-                              height: 10,
-                              margin: EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                color: _currentIndex == index
-                                    ? Colors.red
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ),
-                ],
+        body: Container(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('父组件', style: TextStyle(color: Colors.blue, fontSize: 24)),
+              // ChildWidget(message: '父组件传给我的'),
+              Child(
+                message: '父组件传给我的',
+                callback: (index) {
+                  print('index: $index');
+                },
               ),
-            ),
-            SliverToBoxAdapter(child: SizedBox(height: 10)),
-            // 粘性吸顶分类
-            SliverPersistentHeader(delegate: _Sticky(), pinned: true),
-            SliverToBoxAdapter(child: SizedBox(height: 10)),
-            SliverList.separated(
-              itemCount: 50,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  width: double.infinity,
-                  height: 50,
-                  color: Colors.blue,
-                  alignment: Alignment.center,
-                  child: Text(
-                    '${index + 1}',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(height: 10);
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _Sticky extends SliverPersistentHeaderDelegate {
+// class ChildWidget extends StatelessWidget {
+//   final String? message;
+
+//   const ChildWidget({super.key, this.message});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: Text(
+//         '子组件: $message',
+//         style: TextStyle(color: Colors.black, fontSize: 20),
+//       ),
+//     );
+//   }
+// }
+
+class Child extends StatefulWidget {
+  final String? message;
+  final Function(int index) callback;
+  const Child({super.key, this.message, required this.callback});
+
   @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
+  State<Child> createState() => _ChildState();
+}
+
+class _ChildState extends State<Child> {
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            width: 100,
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            color: Colors.blue,
-            alignment: Alignment.center,
-            child: Text('${index + 1}', style: TextStyle(color: Colors.white)),
-          );
+      child: GestureDetector(
+        onTap: () {
+          widget.callback(1);
         },
+        child: Text(
+          '子组件: ${widget.message}',
+          style: TextStyle(color: Colors.black, fontSize: 20),
+        ),
       ),
     );
-  }
-
-  @override
-  double get maxExtent => 80; // 最大展开高度
-
-  @override
-  double get minExtent => 40; // 最小折叠高度
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false; // 不需要重建
   }
 }
