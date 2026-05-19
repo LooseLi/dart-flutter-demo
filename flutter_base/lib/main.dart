@@ -81,6 +81,12 @@ class _MyAppState extends State<MyApp> {
                 right: 0,
                 child: Container(width: 100, height: 100, color: Colors.green),
               ),
+              Image.asset(
+                'lib/images/Message_Dots.png',
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              ),
             ],
           ),
         ),
