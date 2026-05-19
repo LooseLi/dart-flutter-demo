@@ -13,6 +13,9 @@ class MyApp extends StatefulWidget {
 
 // GridView
 class _MyAppState extends State<MyApp> {
+  int _currentIndex = 0;
+  final PageController _controller = PageController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,15 +25,64 @@ class _MyAppState extends State<MyApp> {
           slivers: [
             // SliverToBoxAdapter包裹普通widget
             SliverToBoxAdapter(
-              child: Container(
-                width: double.infinity,
-                height: 200,
-                color: Colors.blue,
-                alignment: Alignment.center,
-                child: Text(
-                  '轮播图',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
-                ),
+              child: Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 200,
+                    color: Colors.blue,
+                    alignment: Alignment.center,
+                    child: PageView.builder(
+                      controller: _controller,
+                      itemCount: 7,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            '轮播图${index + 1}',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(7, (index) {
+                          return GestureDetector(
+                            onTap: () {
+                              // _controller.jumpToPage(index);
+                              _controller.animateToPage(
+                                index,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.linear,
+                              );
+                              setState(() {
+                                _currentIndex = index;
+                              });
+                            },
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                color: _currentIndex == index
+                                    ? Colors.red
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 10)),
