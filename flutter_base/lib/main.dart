@@ -12,80 +12,70 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int count = 0;
+  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // Flex+Expanded
-    // return MaterialApp(
-    //   home: Scaffold(
-    //     body: Container(
-    //       width: double.infinity,
-    //       color: Colors.yellow,
-    //       alignment: Alignment.center,
-    //       child: Flex(
-    //         direction: Axis.horizontal,
-    //         children: [
-    //           Expanded(
-    //             flex: 2,
-    //             child: Container(width: 100, height: 100, color: Colors.blue),
-    //           ),
-    //           Expanded(
-    //             flex: 1,
-    //             child: Container(width: 100, height: 100, color: Colors.red),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    // Wrap
-    // List<Widget> getList() {
-    //   return List.generate(10, (index) {
-    //     return Container(width: 100, height: 100, color: Colors.blue);
-    //   });
-    // }
-
-    // return MaterialApp(
-    //   home: Scaffold(
-    //     body: Container(
-    //       width: double.infinity,
-    //       color: Colors.yellow,
-    //       alignment: Alignment.center,
-    //       child: Wrap(
-    //         spacing: 10,
-    //         runSpacing: 10,
-    //         direction: Axis.horizontal,
-    //         children: getList(),
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    // Stack+Positioned
-    // Stack中子组件的层叠顺序由其在 children 列表中的顺序决定
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(title: Text('TextField')),
         body: Container(
-          width: double.infinity,
-          // color: Colors.yellow,
-          alignment: Alignment.center,
-          child: Stack(
-            alignment: Alignment.center,
+          padding: EdgeInsets.all(20),
+          color: Colors.white,
+          child: Column(
             children: [
-              Container(width: 200, height: 200, color: Colors.blue),
-              Container(width: 150, height: 150, color: Colors.red),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Container(width: 100, height: 100, color: Colors.green),
+              TextField(
+                controller: _userController,
+                onChanged: (value) {
+                  print('onChanged: $value'); // 监听数据变化
+                },
+                onSubmitted: (value) {
+                  print('onSubmitted: $value'); // 提交时触发
+                },
+                decoration: InputDecoration(
+                  // 定制样式
+                  contentPadding: EdgeInsets.only(left: 10),
+                  fillColor: Colors.amber,
+                  filled: true,
+                  hintText: '请输入账号',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-              Image.asset(
-                'lib/images/Message_Dots.png',
-                width: 50,
+              SizedBox(height: 20),
+              TextField(
+                controller: _passwordController,
+                obscureText: true, // 隐藏输入内容
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 10),
+                  fillColor: Colors.amber,
+                  filled: true,
+                  hintText: '请输入密码',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                width: double.infinity,
                 height: 50,
-                fit: BoxFit.cover,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    print(
+                      '账号：${_userController.text}，密码：${_passwordController.text}',
+                    );
+                  },
+                  child: Text('提交', style: TextStyle(color: Colors.white)),
+                ),
               ),
             ],
           ),
