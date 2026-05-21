@@ -1,6 +1,6 @@
 // 管理路由
 import 'package:flutter/material.dart';
-import 'package:flutter_base/pages/home/index.dart';
+import 'package:flutter_base/pages/main/index.dart';
 import 'package:flutter_base/pages/login/index.dart';
 
 // 返回App根级组件
@@ -10,5 +10,5 @@ Widget getRootWidget() {
 
 // 返回路由配置
 Map<String, Widget Function(BuildContext)> getRootRoutes() {
-  return {'/': (context) => HomePage(), '/login': (context) => LoginPage()};
+  return {'/': (context) => MainPage(), '/login': (context) => LoginPage()};
 }
