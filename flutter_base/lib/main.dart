@@ -10,12 +10,20 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/list',
-      routes: {
-        '/list': (context) => ListPage(),
-        '/detail': (context) => DetailPage(),
+      initialRoute: '/productsList',
+      routes: {'/productsList': (context) => ListPage()},
+      onGenerateRoute: (settings) {
+        if (settings.name == '/detail') {
+          bool isLogin = false;
+          if (isLogin) {
+            return MaterialPageRoute(builder: (context) => DetailPage());
+          }
+          return MaterialPageRoute(builder: (context) => LoginPage());
+        }
       },
-      home: ListPage(),
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (context) => NotFound());
+      },
     );
   }
 }
@@ -31,7 +39,7 @@ class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('列表页')),
+      appBar: AppBar(title: Text('商品列表')),
       body: ListView.builder(
         itemCount: 50,
         itemBuilder: (BuildContext context, int index) {
@@ -43,6 +51,11 @@ class _ListPageState extends State<ListPage> {
               //   MaterialPageRoute(
               //     builder: (context) => DetailPage(),
               //   ),
+              // );
+              // Navigator.pushNamed(
+              //   context,
+              //   '/detail',
+              //   arguments: {'id': index + 1},
               // );
               Navigator.pushNamed(
                 context,
@@ -56,7 +69,7 @@ class _ListPageState extends State<ListPage> {
               color: Colors.blue,
               alignment: Alignment.center,
               child: Text(
-                '${index + 1}',
+                '商品：${index + 1}',
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
@@ -107,6 +120,42 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('登录页')),
+      body: Center(child: Column(children: [Text('先登录')])),
+    );
+  }
+}
+
+class NotFound extends StatelessWidget {
+  const NotFound({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Center(
+        child: Text('404', style: TextStyle(color: Colors.black, fontSize: 40)),
       ),
     );
   }
