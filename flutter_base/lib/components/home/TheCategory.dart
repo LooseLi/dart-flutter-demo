@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/viewmodels/home.dart';
 
 class TheCategory extends StatefulWidget {
-  const TheCategory({super.key});
+  final List<CategoryItem> categoryList;
+  const TheCategory({super.key, required this.categoryList});
 
   @override
   State<TheCategory> createState() => _TheCategoryState();
@@ -14,15 +16,26 @@ class _TheCategoryState extends State<TheCategory> {
       height: 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 10,
+        itemCount: widget.categoryList.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            width: 60,
+            width: 80,
             height: 100,
-            color: Colors.blue,
             alignment: Alignment.center,
             margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Text('分类$index', style: TextStyle(color: Colors.white)),
+            child: Column(
+              children: [
+                Image.network(
+                  widget.categoryList[index].picture,
+                  width: 40,
+                  height: 40,
+                ),
+                Text(
+                  widget.categoryList[index].name,
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            ),
           );
         },
       ),
