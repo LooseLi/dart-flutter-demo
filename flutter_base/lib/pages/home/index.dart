@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/api/home.dart';
 import 'package:flutter_base/components/home/TheCategory.dart';
 import 'package:flutter_base/components/home/TheHot.dart';
 import 'package:flutter_base/components/home/TheMoreList.dart';
@@ -14,20 +15,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<BannerItem> _bannerList = [
-    BannerItem(
-      id: '1',
-      imgUrl: 'https://img.beingfine.cn/Channel/i_09543310006_opt.png',
-    ),
-    BannerItem(
-      id: '2',
-      imgUrl: 'https://img.beingfine.cn/Channel/i_09543410007_opt.png',
-    ),
-    BannerItem(
-      id: '3',
-      imgUrl: 'https://img.beingfine.cn/Channel/i_09542910004_opt.png',
-    ),
-  ];
+  List<BannerItem> _bannerList = [];
 
   List<Widget> _getScrollChildren() {
     return [
@@ -53,6 +41,18 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       TheMoreList(),
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getBannerList();
+  }
+
+  void _getBannerList() async {
+    final res = await getBannerListAPI();
+    _bannerList = res;
+    setState(() {});
   }
 
   @override
