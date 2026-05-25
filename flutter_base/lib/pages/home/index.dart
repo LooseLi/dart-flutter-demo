@@ -17,6 +17,11 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   List<BannerItem> _bannerList = [];
   List<CategoryItem> _categoryList = [];
+  HotRecommendResult _hotRecommendResult = HotRecommendResult(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
 
   List<Widget> _getScrollChildren() {
     return [
@@ -24,7 +29,9 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       SliverToBoxAdapter(child: TheCategory(categoryList: _categoryList)),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      SliverToBoxAdapter(child: TheSuggestion()),
+      SliverToBoxAdapter(
+        child: TheSuggestion(hotRecommendResult: _hotRecommendResult),
+      ),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       SliverToBoxAdapter(
         child: Padding(
@@ -49,18 +56,30 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     _getBannerList();
     _getCategoryList();
+    _getProductList();
   }
 
   void _getBannerList() async {
     final res = await getBannerListAPI();
     _bannerList = res;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _getCategoryList() async {
     final res = await getCategoryListAPI();
     _categoryList = res;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _getProductList() async {
+    _hotRecommendResult = await getProductListAPI();
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override

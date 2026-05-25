@@ -27,7 +27,9 @@ class _MainPageState extends State<MainPage> {
     Map<String, dynamic> res = result.data as Map<String, dynamic>;
     List data = res['data']['channels'] as List;
     _list = data;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     // print(_list);
   }
 

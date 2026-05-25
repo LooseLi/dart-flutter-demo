@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {s
     return Scaffold(
       body: SafeArea(
         child: IndexedStack(index: _currentIndex, children: _getChildren()),

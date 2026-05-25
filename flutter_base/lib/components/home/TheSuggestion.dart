@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/viewmodels/home.dart';
 
 class TheSuggestion extends StatefulWidget {
-  const TheSuggestion({super.key});
+  final HotRecommendResult hotRecommendResult;
+  const TheSuggestion({super.key, required this.hotRecommendResult});
 
   @override
   State<TheSuggestion> createState() => _TheSuggestionState();
