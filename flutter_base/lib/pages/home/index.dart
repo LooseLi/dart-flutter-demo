@@ -22,6 +22,16 @@ class _HomeViewState extends State<HomeView> {
     title: '',
     subTypes: [],
   );
+  HotRecommendResult _inVogueResult = HotRecommendResult(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
+  HotRecommendResult _oneStopResult = HotRecommendResult(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
 
   List<Widget> _getScrollChildren() {
     return [
@@ -39,9 +49,13 @@ class _HomeViewState extends State<HomeView> {
           child: Flex(
             direction: Axis.horizontal,
             children: [
-              Expanded(child: TheHot()),
+              Expanded(
+                child: TheHot(result: _inVogueResult, type: 'hot'),
+              ),
               SizedBox(width: 10),
-              Expanded(child: TheHot()),
+              Expanded(
+                child: TheHot(result: _oneStopResult, type: 'step'),
+              ),
             ],
           ),
         ),
@@ -57,6 +71,8 @@ class _HomeViewState extends State<HomeView> {
     _getBannerList();
     _getCategoryList();
     _getProductList();
+    _getInVogueList();
+    _getOneStopList();
   }
 
   void _getBannerList() async {
@@ -77,6 +93,20 @@ class _HomeViewState extends State<HomeView> {
 
   void _getProductList() async {
     _hotRecommendResult = await getProductListAPI();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _getInVogueList() async {
+    _inVogueResult = await getInVogueListAPI();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _getOneStopList() async {
+    _oneStopResult = await getOneStopListAPI();
     if (mounted) {
       setState(() {});
     }

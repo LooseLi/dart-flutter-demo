@@ -77,7 +77,10 @@ class _TheSuggestionState extends State<TheSuggestion> {
               color: Colors.red,
               borderRadius: BorderRadiusGeometry.circular(8),
             ),
-            child: Text('¥${list[index].price}'),
+            child: Text(
+              '¥${list[index].price}',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       );
