@@ -10,7 +10,7 @@ class ToastUtils {
         ),
         duration: Duration(seconds: 1),
         behavior: SnackBarBehavior.floating,
-        content: Text(msg ?? '加载中s', textAlign: TextAlign.center),
+        content: Text(msg ?? '加载中', textAlign: TextAlign.center),
       ),
     );
   }
