@@ -5,6 +5,7 @@ import 'package:flutter_base/components/home/TheHot.dart';
 import 'package:flutter_base/components/home/TheMoreList.dart';
 import 'package:flutter_base/components/home/TheSlider.dart';
 import 'package:flutter_base/components/home/TheSuggestion.dart';
+import 'package:flutter_base/utils/ToastUtils.dart';
 import 'package:flutter_base/viewmodels/home.dart';
 
 class HomeView extends StatefulWidget {
@@ -69,12 +70,20 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    _getBannerList();
-    _getCategoryList();
-    _getProductList();
-    _getInVogueList();
-    _getOneStopList();
-    _getRecommendList();
+
+    // _getBannerList();
+    // _getCategoryList();
+    // _getProductList();
+    // _getInVogueList();
+    // _getOneStopList();
+    // _getRecommendList();
+
+    // 微任务
+    Future.microtask(() {
+      _paddingTop = 60;
+      _key.currentState?.show();
+    });
+
     _registerEvent();
   }
 
@@ -88,47 +97,32 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  void _getBannerList() async {
+  Future<void> _getBannerList() async {
     final res = await getBannerListAPI();
     _bannerList = res;
-    if (mounted) {
-      setState(() {});
-    }
   }
 
-  void _getCategoryList() async {
+  Future<void> _getCategoryList() async {
     final res = await getCategoryListAPI();
     _categoryList = res;
-    if (mounted) {
-      setState(() {});
-    }
   }
 
-  void _getProductList() async {
+  Future<void> _getProductList() async {
     _hotRecommendResult = await getProductListAPI();
-    if (mounted) {
-      setState(() {});
-    }
   }
 
-  void _getInVogueList() async {
+  Future<void> _getInVogueList() async {
     _inVogueResult = await getInVogueListAPI();
-    if (mounted) {
-      setState(() {});
-    }
   }
 
-  void _getOneStopList() async {
+  Future<void> _getOneStopList() async {
     _oneStopResult = await getOneStopListAPI();
-    if (mounted) {
-      setState(() {});
-    }
   }
 
   int _page = 1;
   bool _isLoading = false;
   bool _hasMore = true;
-  void _getRecommendList() async {
+  Future<void> _getRecommendList() async {
     if (_isLoading || !_hasMore) {
       return;
     }
@@ -146,13 +140,44 @@ class _HomeViewState extends State<HomeView> {
     _page++;
   }
 
+  Future<void> _onRefresh() async {
+    _page = 1;
+    _isLoading = false;
+    _hasMore = true;
+    await _getBannerList();
+    await _getCategoryList();
+    await _getProductList();
+    await _getInVogueList();
+    await _getOneStopList();
+    await _getRecommendList();
+    ToastUtils.showToast(context, '刷新数据成功');
+    _paddingTop = 0;
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   final ScrollController _controller = ScrollController();
+
+  // GlobalKey是一个方法，可以创建一个key，并绑定到 widget 组件上，可以操作 widget 组件
+  final GlobalKey<RefreshIndicatorState> _key =
+      GlobalKey<RefreshIndicatorState>();
+
+  double _paddingTop = 0;
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _controller,
-      slivers: _getScrollChildren(),
+    return RefreshIndicator(
+      key: _key,
+      onRefresh: _onRefresh,
+      child: AnimatedContainer(
+        padding: EdgeInsets.only(top: _paddingTop),
+        duration: Duration(microseconds: 300),
+        child: CustomScrollView(
+          controller: _controller,
+          slivers: _getScrollChildren(),
+        ),
+      ),
     );
   }
 }
