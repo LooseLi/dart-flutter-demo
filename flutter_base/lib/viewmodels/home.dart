@@ -154,3 +154,27 @@ int _asInt(dynamic value) {
   if (value is num) return value.toInt();
   return int.tryParse(value.toString()) ?? 0;
 }
+
+class GoodDetailItem extends HotGoodsItem {
+  int payCount = 0;
+
+  GoodDetailItem({
+    required super.id,
+    required super.name,
+    required super.price,
+    required super.picture,
+    required super.orderNum,
+    required this.payCount,
+  }) : super(desc: '');
+
+  factory GoodDetailItem.fromJSON(Map<String, dynamic> json) {
+    return GoodDetailItem(
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      price: json['price']?.toString() ?? '',
+      picture: json['picture']?.toString() ?? '',
+      orderNum: _asInt(json['orderNum']),
+      payCount: _asInt(json['payCount']),
+    );
+  }
+}

@@ -32,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
     title: '',
     subTypes: [],
   );
+  List<GoodDetailItem> _recommendList = [];
 
   List<Widget> _getScrollChildren() {
     return [
@@ -61,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      TheMoreList(),
+      TheMoreList(recommendList: _recommendList),
     ];
   }
 
@@ -73,6 +74,7 @@ class _HomeViewState extends State<HomeView> {
     _getProductList();
     _getInVogueList();
     _getOneStopList();
+    _getRecommendList();
   }
 
   void _getBannerList() async {
@@ -107,6 +109,13 @@ class _HomeViewState extends State<HomeView> {
 
   void _getOneStopList() async {
     _oneStopResult = await getOneStopListAPI();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _getRecommendList() async {
+    _recommendList = await getRecommendListAPI({'limit': 10});
     if (mounted) {
       setState(() {});
     }
