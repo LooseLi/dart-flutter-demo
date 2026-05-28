@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/viewmodels/home.dart';
+import 'package:flutter_base/models/home.dart';
 
 class TheSlider extends StatefulWidget {
   final List<BannerItem> bannerList;

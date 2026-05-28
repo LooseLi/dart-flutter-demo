@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base/viewmodels/home.dart';
+import 'package:flutter_base/models/home.dart';
 
 class TheSuggestion extends StatefulWidget {
   final HotRecommendResult hotRecommendResult;

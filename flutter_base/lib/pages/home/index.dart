@@ -6,7 +6,7 @@ import 'package:flutter_base/components/home/TheMoreList.dart';
 import 'package:flutter_base/components/home/TheSlider.dart';
 import 'package:flutter_base/components/home/TheSuggestion.dart';
 import 'package:flutter_base/utils/ToastUtils.dart';
-import 'package:flutter_base/viewmodels/home.dart';
+import 'package:flutter_base/models/home.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
