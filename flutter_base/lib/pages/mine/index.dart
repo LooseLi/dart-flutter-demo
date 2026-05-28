@@ -52,7 +52,21 @@ class _MineViewState extends State<MineView> {
   }
 
   Widget _buildHeader() {
-    return Container(width: double.infinity, height: 200, color: Colors.blue);
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/login');
+      },
+      child: Container(
+        width: double.infinity,
+        height: 200,
+        color: Colors.blue,
+        alignment: Alignment.center,
+        child: Text(
+          '点击登录',
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      ),
+    );
   }
 
   final ScrollController _controller = ScrollController();
