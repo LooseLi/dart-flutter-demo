@@ -11,61 +11,59 @@ class TheMoreList extends StatefulWidget {
 
 class _TheMoreListState extends State<TheMoreList> {
   Widget _getChildren(int index) {
-    return Container(
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Image.network(
-                widget.recommendList[index].picture,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset(
-                    'lib/assets/icon-test.jpeg',
-                    fit: BoxFit.cover,
-                  );
-                },
-              ),
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: AspectRatio(
+            aspectRatio: 1.0,
+            child: Image.network(
+              widget.recommendList[index].picture,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'lib/assets/icon-test.jpeg',
+                  fit: BoxFit.cover,
+                );
+              },
             ),
           ),
-          SizedBox(height: 6),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    text: '¥${widget.recommendList[index].price}',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    children: [
-                      TextSpan(text: ''),
-                      TextSpan(
-                        text: '¥${widget.recommendList[index].price}',
-                        style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+        ),
+        SizedBox(height: 6),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text.rich(
+                TextSpan(
+                  text: '¥${widget.recommendList[index].price}',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
                   ),
+                  children: [
+                    TextSpan(text: ''),
+                    TextSpan(
+                      text: '¥${widget.recommendList[index].price}',
+                      style: TextStyle(
+                        decoration: TextDecoration.lineThrough,
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  '${widget.recommendList[index].payCount}人付款',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
+              ),
+              Text(
+                '${widget.recommendList[index].payCount}人付款',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
