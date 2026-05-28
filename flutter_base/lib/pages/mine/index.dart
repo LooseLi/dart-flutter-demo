@@ -3,6 +3,10 @@ import 'package:flutter_base/api/mine.dart';
 import 'package:flutter_base/components/home/TheMoreList.dart';
 import 'package:flutter_base/components/mine/TheGuess.dart';
 import 'package:flutter_base/models/home.dart';
+import 'package:flutter_base/stores/user.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/route_manager.dart';
 
 class MineView extends StatefulWidget {
   const MineView({super.key});
@@ -12,6 +16,8 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+  final User _userController = Get.put(User());
+
   final List<GoodDetailItem> _list = [];
   final Map<String, dynamic> _params = {'page': 1, 'pageSize': 10};
 
@@ -52,21 +58,27 @@ class _MineViewState extends State<MineView> {
   }
 
   Widget _buildHeader() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, '/login');
-      },
-      child: Container(
-        width: double.infinity,
-        height: 200,
-        color: Colors.blue,
-        alignment: Alignment.center,
-        child: Text(
-          '点击登录',
-          style: TextStyle(color: Colors.white, fontSize: 20),
+    return Obx(() {
+      return GestureDetector(
+        onTap: () {
+          if (_userController.user.value.id.isEmpty) {
+            Navigator.pushNamed(context, '/login');
+          }
+        },
+        child: Container(
+          width: double.infinity,
+          height: 200,
+          color: Colors.blue,
+          alignment: Alignment.center,
+          child: Text(
+            _userController.user.value.id.isNotEmpty
+                ? _userController.user.value.account
+                : '点击登录',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   final ScrollController _controller = ScrollController();

@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/api/user.dart';
+import 'package:flutter_base/stores/user.dart';
 import 'package:flutter_base/utils/ToastUtils.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
+  final User _userController = Get.find();
 
   Widget _buildHeader() {
     return Container(
@@ -138,6 +141,7 @@ class _LoginPageState extends State<LoginPage> {
         'account': _phoneController.text,
         'password': _codeController.text,
       });
+      _userController.updateUserInfo(res);
       ToastUtils.showToast(context, '登录成功');
       Navigator.pop(context);
     } catch (e) {
