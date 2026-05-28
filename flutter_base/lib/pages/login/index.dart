@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/api/user.dart';
 import 'package:flutter_base/stores/token.dart';
 import 'package:flutter_base/stores/user.dart';
+import 'package:flutter_base/utils/LoadingDialog.dart';
 import 'package:flutter_base/utils/ToastUtils.dart';
 import 'package:get/get.dart';
 
@@ -137,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _login() async {
+    LoadingDialog.show(context);
     try {
       final res = await loginAPI({
         'account': _phoneController.text,
@@ -144,9 +146,11 @@ class _LoginPageState extends State<LoginPage> {
       });
       _userController.updateUserInfo(res);
       token.setToken(res.token); // 持久化
+      LoadingDialog.hide(context);
       ToastUtils.showToast(context, '登录成功');
       Navigator.pop(context);
     } catch (e) {
+      LoadingDialog.hide(context);
       ToastUtils.showToast(context, (e as DioException).message);
     }
   }
