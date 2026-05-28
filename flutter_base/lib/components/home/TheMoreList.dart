@@ -40,7 +40,7 @@ class _TheMoreListState extends State<TheMoreList> {
                   text: '¥${widget.recommendList[index].price}',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
                   children: [
@@ -50,7 +50,7 @@ class _TheMoreListState extends State<TheMoreList> {
                       style: TextStyle(
                         decoration: TextDecoration.lineThrough,
                         color: Colors.grey,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
                     ),
                   ],
@@ -58,7 +58,7 @@ class _TheMoreListState extends State<TheMoreList> {
               ),
               Text(
                 '${widget.recommendList[index].payCount}人付款',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.grey, fontSize: 10),
               ),
             ],
           ),
