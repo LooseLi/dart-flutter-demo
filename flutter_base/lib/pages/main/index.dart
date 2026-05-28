@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/api/user.dart';
 import 'package:flutter_base/pages/cart/index.dart';
 import 'package:flutter_base/pages/category/index.dart';
 import 'package:flutter_base/pages/home/index.dart';
 import 'package:flutter_base/pages/mine/index.dart';
+import 'package:flutter_base/stores/token.dart';
+import 'package:flutter_base/stores/user.dart';
+import 'package:get/get.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -53,6 +57,21 @@ class _MainPageState extends State<MainPage> {
         label: _tabList[index]['text']!,
       );
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initUser();
+  }
+
+  final User _userController = Get.put(User());
+
+  _initUser() async {
+    await token.init();
+    if (token.getToken().isNotEmpty) {
+      _userController.updateUserInfo(await getUserInfoAPI());
+    }
   }
 
   @override

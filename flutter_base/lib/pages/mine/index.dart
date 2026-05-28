@@ -16,7 +16,7 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
-  final User _userController = Get.put(User());
+  final User _userController = Get.find();
 
   final List<GoodDetailItem> _list = [];
   final Map<String, dynamic> _params = {'page': 1, 'pageSize': 10};

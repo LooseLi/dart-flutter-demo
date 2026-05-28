@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_base/constants/index.dart';
+import 'package:flutter_base/stores/token.dart';
 
 class DioRequest {
   final _dio = Dio();
@@ -17,6 +18,9 @@ class DioRequest {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (request, handler) {
+          if (token.getToken().isNotEmpty) {
+            request.headers = {'Authorization': 'Bearer ${token.getToken()}'};
+          }
           handler.next(request);
         },
         onResponse: (response, handler) {
