@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/api/user.dart';
 import 'package:flutter_base/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -116,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         if (_key.currentState!.validate()) {
           if (_isChecked) {
+            _login();
           } else {
             ToastUtils.showToast(context, '请勾选用户协议');
           }
@@ -127,6 +130,19 @@ class _LoginPageState extends State<LoginPage> {
         child: Text('登录', style: TextStyle(color: Colors.white)),
       ),
     );
+  }
+
+  _login() async {
+    try {
+      final res = await loginAPI({
+        'account': _phoneController.text,
+        'password': _codeController.text,
+      });
+      ToastUtils.showToast(context, '登录成功');
+      Navigator.pop(context);
+    } catch (e) {
+      ToastUtils.showToast(context, (e as DioException).message);
+    }
   }
 
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
