@@ -61,39 +61,40 @@ class _MineViewState extends State<MineView> {
 
   Widget _getLogout() {
     return _userController.user.value.id.isNotEmpty
-        ? Container(
-            child: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text('提示'),
-                      content: Text('确认要退出吗？'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('取消'),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            await token.removeToken();
-                            _userController.updateUserInfo(
-                              UserInfo.fromJSON({}),
-                            );
-                            Navigator.pop(context);
-                          },
-                          child: Text('确认'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              child: Text('退出登录', textAlign: TextAlign.end),
-            ),
+        ? GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('提示'),
+                    content: Text('确认要退出吗？'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('取消'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await token.removeToken();
+                          _userController.updateUserInfo(UserInfo.fromJSON({}));
+
+                          if (!context.mounted) {
+                            return;
+                          }
+
+                          Navigator.pop(context);
+                        },
+                        child: Text('确认'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Text('退出登录', textAlign: TextAlign.end),
           )
         : Text('');
   }

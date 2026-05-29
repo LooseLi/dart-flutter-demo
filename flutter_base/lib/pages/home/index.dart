@@ -150,6 +150,11 @@ class _HomeViewState extends State<HomeView> {
     await _getInVogueList();
     await _getOneStopList();
     await _getRecommendList();
+
+    if (!mounted) {
+      return;
+    }
+
     ToastUtils.showToast(context, '刷新数据成功');
     _paddingTop = 0;
     if (mounted) {

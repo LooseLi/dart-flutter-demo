@@ -20,14 +20,12 @@ class _LoginPageState extends State<LoginPage> {
   final User _userController = Get.find();
 
   Widget _buildHeader() {
-    return Container(
-      child: Text(
-        '账号密码登录',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-        ),
+    return Text(
+      '账号密码登录',
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.w500,
       ),
     );
   }
@@ -144,6 +142,11 @@ class _LoginPageState extends State<LoginPage> {
         'account': _phoneController.text,
         'password': _codeController.text,
       });
+
+      if (!context.mounted) {
+        return;
+      }
+
       _userController.updateUserInfo(res);
       token.setToken(res.token); // 持久化
       LoadingDialog.hide(context);
